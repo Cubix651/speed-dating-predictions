@@ -26,21 +26,9 @@ attributes_variants = [
     v(a) for a in attributes for v in variants
 ]
 
-def all_attributes_scale_to_alloc(df):
-    for variant in variants:
-        current_attributes = list(map(variant, attributes))
-        attributes_scale_to_alloc(df, current_attributes)
-
-def attributes_scale_to_alloc(df, attributes):
-    sum = df[attributes].sum(axis=1)
-    result = df[attributes].div(sum, axis=0) * 100
-    print(result)
-    df.loc[:,attributes] = result
-
 def main():
     
     base_feature_names = [
-        'wave',
         'age',
         'age_o',
         'race',
@@ -52,8 +40,6 @@ def main():
     feature_names = [
         *base_feature_names,
         *attributes_variants,
-        # *['person_ratio_' + a for a in attributes],
-        # *['partner_ratio_' + a for a in attributes],
     ]
     class_column = 'match'
 
@@ -62,21 +48,6 @@ def main():
         usecols=[class_column, *base_feature_names, *attributes_variants])
     
     df.dropna(inplace=True)
-
-    condition = (df['wave'] >= 6) & (df['wave'] <= 9)
-    # print(condition)
-    rows_with_scale = df[condition]
-    print(rows_with_scale)
-    all_attributes_scale_to_alloc(rows_with_scale)
-    print(rows_with_scale)
-    
-    # for attribute in attributes:
-    #     for desired, real, kind in [(*variants_person, 'person'), (*variants_partner, 'partner')]:
-    #         real_attribute = real(attribute)
-    #         desired_attribute = desired(attribute)
-    #         attribute_ratio = (df[real_attribute] - df[desired_attribute]) > 0
-    #         df[kind + '_ratio_' + attribute] = attribute_ratio
-    #         df.drop(columns=[real_attribute, desired_attribute], inplace=True)    
     
     # print(df)
     all_inputs = df[feature_names].values
