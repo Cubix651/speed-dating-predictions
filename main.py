@@ -7,49 +7,11 @@ from sklearn.metrics import confusion_matrix
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 import tensorflow as tf
-
-attributes = [
-    'attr',
-    'sinc',
-    'intel',
-    'fun',
-    'amb',
-    'shar',
-]
-variants_person = (
-    lambda a: a+'1_1',
-    lambda a: a,
-)
-variants_partner = (
-    lambda a: 'pf_o_'+a[:3],
-    lambda a: a+'_o',
-)
-variants = list(variants_person) + list(variants_partner)
-attributes_variants = [
-    v(a) for a in attributes for v in variants
-]
+from read import *
 
 def main():
-    
-    base_feature_names = [
-        'age',
-        'age_o',
-        'race',
-        'race_o',
-        'date',
-        'go_out',
-        'exphappy',
-    ]
-    feature_names = [
-        *base_feature_names,
-        *attributes_variants,
-    ]
-    class_column = 'match'
+    df = read_database('db/Speed Dating Data.csv')
 
-    df = pd.read_csv('db/Speed Dating Data.csv', 
-        encoding="ISO-8859-1",
-        usecols=[class_column, *base_feature_names, *attributes_variants])
-    
     df.dropna(inplace=True)
     
     # print(df)
