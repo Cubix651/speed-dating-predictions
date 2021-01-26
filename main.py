@@ -6,6 +6,7 @@ from sklearn.tree import DecisionTreeClassifier, export_text, plot_tree
 from sklearn.metrics import confusion_matrix
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+import tensorflow as tf
 
 attributes = [
     'attr',
@@ -71,10 +72,33 @@ def main():
         print(mdf)
 
         return name, score
+
+    def run_neural_network():
+        model = tf.keras.models.Sequential([
+            tf.keras.layers.Dense(len(feature_names), activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(10)
+        ])
+        # predictions = model(train_inputs[:1]).numpy()
+        # tf.nn.softmax(predictions).numpy()
+        loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+        # loss_fn(train_classes[:1], predictions).numpy()
+        model.compile(
+            optimizer='adam',
+            loss=loss_fn,
+            metrics=['accuracy']
+        )
+        model.fit(train_inputs, train_classes, epochs=10)
+        result = model.evaluate(test_inputs, test_classes, verbose=2)
+        print(result)
+
     run(DecisionTreeClassifier())
     run(GaussianNB())
     for k in [3, 5, 7]:
         run(KNeighborsClassifier(n_neighbors=k, metric='euclidean'))
+    run_neural_network()
+
+
 
 if __name__ == '__main__':
     main()
