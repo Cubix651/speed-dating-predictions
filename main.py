@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from read import *
+from read import read_database
+from configuration import feature_names, class_column
 from classifiers import *
 from dataset import DataSet
 
