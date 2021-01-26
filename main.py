@@ -13,8 +13,7 @@ def main():
     describe_database(df)
     df.dropna(inplace=True)
     plot_features(df)
-    
-    # print(df)
+
     all_inputs = df[feature_names].values
     all_classes = df[class_column].values
     dataset = DataSet(*train_test_split(all_inputs, all_classes, train_size=0.7, random_state=1))
