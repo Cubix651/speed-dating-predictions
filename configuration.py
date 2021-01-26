@@ -49,3 +49,22 @@ feature_names = [
     *base_feature_names,
     *attributes_variants,
 ]
+
+race_labels = [
+    'Black/African American',
+    'European/Caucasian-American',
+    'Latino/Hispanic American',
+    'Asian/Pacific Islander/Asian-American',
+    'Native American',
+    'Other',
+]
+
+frequency_labels = [
+    'Kilka razy w tygodniu',
+    'Dwa razy w tygodniu',
+    'Raz w tygodniu',
+    'Dwa razy w miesiącu',
+    'Raz w miesiącu',
+    'Kilka razy w roku',
+    'Prawie wcale',
+]
