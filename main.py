@@ -74,23 +74,27 @@ def main():
         return name, score
 
     def run_neural_network():
+        print(20*'=')
+        print('NeuralNetwork')
         model = tf.keras.models.Sequential([
-            tf.keras.layers.Dense(len(feature_names), activation='relu'),
-            tf.keras.layers.Dropout(0.2),
-            tf.keras.layers.Dense(10)
+            tf.keras.layers.Dense(31, input_shape=(31,), activation='relu'),
+            tf.keras.layers.Dense(10, activation='relu'),
+            tf.keras.layers.Dense(2, activation='softmax')
         ])
-        # predictions = model(train_inputs[:1]).numpy()
-        # tf.nn.softmax(predictions).numpy()
-        loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-        # loss_fn(train_classes[:1], predictions).numpy()
         model.compile(
             optimizer='adam',
-            loss=loss_fn,
+            loss=tf.keras.losses.SparseCategoricalCrossentropy(),
             metrics=['accuracy']
         )
-        model.fit(train_inputs, train_classes, epochs=10)
-        result = model.evaluate(test_inputs, test_classes, verbose=2)
-        print(result)
+        model.fit(train_inputs, train_classes, epochs=30, verbose=0)
+        _, accuracy = model.evaluate(test_inputs, test_classes, verbose=0)
+        print(accuracy)
+        predictions = model.predict(test_inputs)
+        output_classes = np.argmax(predictions, axis=1)
+        matrix = confusion_matrix(test_classes, output_classes)
+        class_names = [0,1]
+        mdf = pd.DataFrame(matrix, columns=class_names, index=class_names)
+        print(mdf)
 
     run(DecisionTreeClassifier())
     run(GaussianNB())
