@@ -8,13 +8,28 @@ attributes = [
     'amb',
     'shar',
 ]
+
+attributes_long_names = {
+    'attr':'Atrakcyjny',
+    'sinc':'Szczery',
+    'intel':'Inteligentny',
+    'fun':'Zabawny',
+    'amb':'Ambitny',
+    'shar':'Wspólne zainteresowania',
+}
+
+person_preference = lambda a: a+'1_1'
+person_opinion = lambda a: a
+partner_preference = lambda a: 'pf_o_'+a[:3]
+partner_opinion = lambda a: a+'_o'
+
 variants_person = (
-    lambda a: a+'1_1',
-    lambda a: a,
+    person_preference,
+    person_opinion
 )
 variants_partner = (
-    lambda a: 'pf_o_'+a[:3],
-    lambda a: a+'_o',
+    partner_preference,
+    partner_opinion
 )
 variants = list(variants_person) + list(variants_partner)
 attributes_variants = [
