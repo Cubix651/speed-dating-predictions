@@ -6,11 +6,13 @@ from read import read_database
 from configuration import feature_names, class_column
 from classifiers import *
 from dataset import DataSet
+from info import describe_database, plot_features
 
 def main():
     df = read_database('db/Speed Dating Data.csv')
-
+    describe_database(df)
     df.dropna(inplace=True)
+    plot_features(df)
     
     # print(df)
     all_inputs = df[feature_names].values
